@@ -33,8 +33,15 @@ jobs:
       - name: Sync Capacitor Android Project
         run: npx cap sync android
 
-      - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@v4
+      - name: Sync Capacitor Android Project
+  run: npx cap sync android
+
+- name: Build Android Debug APK
+  run: |
+    cd android
+    chmod +x gradlew
+    ./gradlew assembleDebug
+  
 
       - name: Build Android Debug APK
         run: |
