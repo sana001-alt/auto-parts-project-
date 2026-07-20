@@ -94,6 +94,19 @@ async function startServer() {
     res.json({ status: "ok", mode: process.env.NODE_ENV });
   });
 
+  // Direct download endpoint for the Android APK
+  app.get("/download-apk", (req, res) => {
+    const apkPath = path.join(process.cwd(), "app-debug.apk");
+    res.download(apkPath, "app-debug.apk", (err) => {
+      if (err) {
+        console.error("Error downloading APK:", err);
+        if (!res.headersSent) {
+          res.status(404).send("APK file not found or is still building. Please try again later.");
+        }
+      }
+    });
+  });
+
   // Vite middleware for development
   if (process.env.NODE_ENV !== "production") {
     const vite = await createViteServer({
